@@ -1,0 +1,50 @@
+#define LED_PIN1 5
+#define LED_PIN2 18
+#define LED_PIN3 19
+int TOUCH1 = 12;
+int TOUCH2 = 27;
+int TOUCH3 = 14;
+
+#define BLINK_INTERVAL  250
+
+int statusJogo = 0;
+int telaInicio = 1;
+
+int pontosP1 = 0;
+int pontosP2 = 0;
+
+void setup() {
+  Serial.begin(115200);
+  Serial.println("ESP32 Touch Test");
+  pinMode(LED_PIN1, OUTPUT);
+  pinMode(LED_PIN2, OUTPUT);
+  pinMode(LED_PIN3, OUTPUT);
+}
+
+void pisca(int led, int tempo, float freq) {
+  //tempo em segundo, frequen em piscadas/s
+  int periodo = (1.0 / freq) * 1000;
+
+  for (int i = 0; i <= tempo * freq; i++) {
+    digitalWrite(led, LOW);
+    delay(periodo / 2);
+    digitalWrite(led, HIGH);
+    delay(periodo / 2);
+  }
+}
+
+void touchButton(int player, int led) {
+  // jogador toca pino e acende
+  int tocado = touchRead(player);
+  if (tocado < 10) {
+    digitalWrite(led, HIGH);
+    //Serial.println(tocado);
+    //Serial.println("Jogador 1");
+    if (player = TOUCH1) pontosP1+=1;
+    if (player = TOUCH3) pontosP2+=1;
+    //Serial.println("Pontos P1: "+ String(pontosP1));
+    //Serial.println("Pontos P2: "+ String(pontosP2));
+  } else {
+    digitalWrite(led, LOW);
+  }
+}
